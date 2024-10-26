@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estoque - Controle de Estoque</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .table-container {
+            margin-top: 20px;
+        }
+        .table-responsive {
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .highlight {
+            color: red;
+        }
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .filtro-container {
+            margin-bottom: 10px;
+        }
+        .filtro-btns {
+            display: flex;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Estoque de Produtos</a>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <span class="navbar-text" id="user-name">Carregando...</span>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url_for('home') }}" class="btn btn-info mr-2">Home</a>
+            </li>
+            <li class="nav-item">
+                <button class="btn btn-danger" onclick="logout()">Sair</button>
+            </li>
+        </ul>
+    </nav>
+    <div class="container table-container">
+        <h2>Estoque de Produtos</h2>
+        <div class="filtro-container">
+            <form action="/estoque" method="get">
+                <div class="form-row align-items-end">
+                    <div class="col-md-3">
+                        <input type="number" class="form-control" id="codigo" name="codigo" placeholder="Buscar por Código">
+                    </div>                    
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" name="filtro_nome" placeholder="Buscar por Nome">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" name="filtro_marca" placeholder="Buscar por Categoria">
+                    </div>
+                    <div class="col-md-3 filtro-btns">
+                        <button type="submit" class="btn btn-primary">Buscar</button>
+                        <a href="/estoque" class="btn btn-secondary">Limpar Busca</a>
+                    </div>
+                </div>                
+        <div class="table-responsive">
+            <table class="table table-hover table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Código</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Categoria</th>
+                        <th scope="col">Informações do Produto</th>
+                        <th scope="col">Quantidade</th>
+                        <th scope="col">Custo</th>
+                        <th scope="col">Data de Inclusão</th>
+                        <th scope="col">Data de Validade</th>
+                        <th scope="col">Dias até Vencimento</th>
+                        <th scope="col">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for produto in produtos %}
+                    <tr id="produto-{{ produto.id }}">
+                        <td>{{ produto.id | default('N/A') }}</td>
+                        <td>{{ produto.codigo | default('Código não disponível') }}</td>
+                        <td>{{ produto.nome | default('Nome não disponível') }}</td>
+                        <td>{{ produto.marca | default('Marca não disponível') }}</td>
+                        <td>{{ produto.informacoes | default('N/A') }}</td>
+                        <td>{{ produto.quantidade | default('N/A') }}</td>
+                        <td>R$ {{ "%.2f"|format(produto.custo) if produto.custo is not none else 'N/A' }}</td>
+                        <td>{{ produto.data_inclusao | default('Data não disponível') | datetimeformat('%d-%m-%Y') }}</td>
+                        <td>{{ produto.data_validade | default('Data não disponível') | datetimeformat('%d-%m-%Y') }}</td>
+                        <td class="{{ 'highlight' if produto.dias_ate_vencimento is not none and produto.dias_ate_vencimento <= 7 else '' }}">
+                            {{ produto.dias_ate_vencimento | default('N/A') }}
+                        </td>
+                        <td class="btn-container">
+                            <button type="button" class="btn btn-sm btn-danger" onclick="confirmarExclusao('{{ produto.id }}')">Excluir</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Scripts para Bootstrap, jQuery e Firebase -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-auth.js"></script>
+
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyCCTTKM8tFMwxcYULKZwrBNO8W8hkbW_PM",
+            authDomain: "controle-de-mercadoria.firebaseapp.com",
+            projectId: "controle-de-mercadoria",
+            storageBucket: "controle-de-mercadoria.appspot.com",
+            messagingSenderId: "582797948259",
+            appId: "1:582797948259:web:controle-de-mercadoria"
+        };
+        firebase.initializeApp(firebaseConfig);
+
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                document.getElementById('user-name').textContent = user.displayName || user.email;
+            } else {
+                window.location.href = '/login';
+            }
+        });
+
+        function logout() {
+            firebase.auth().signOut().then(function() {
+                window.location.href = '/login';
+            }).catch(function(error) {
+                console.error('Erro ao fazer logout', error);
+            });
+        }
+
+        function confirmarExclusao(id) {
+            if (confirm('Tem certeza que deseja excluir este produto?')) {
+                fetch('/excluir-produto/' + id, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Produto excluído com sucesso!');
+                        location.reload();
+                    } else {
+                        alert('Falha ao excluir produto.');
+                    }
+                })
+                .catch(error => console.error('Erro ao excluir produto', error));
+            }
+        }
+    </script>
+</body>
+</html>
