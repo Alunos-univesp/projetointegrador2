@@ -1,2 +1,5 @@
-flask
+Flask
+Flask-SQLAlchemy
+Flask-Migrate
 firebase-admin
+pymysql
