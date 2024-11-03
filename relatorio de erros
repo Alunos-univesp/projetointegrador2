@@ -1,0 +1,22 @@
+**Relatório de Erros Encontrados no Desenvolvimento do Projeto de Controle de Estoque**
+
+**1. Avisos e Advertências do Servidor de Desenvolvimento**
+Durante o desenvolvimento, foram identificados diversos avisos emitidos pelo servidor de desenvolvimento Flask. A principal advertência foi sobre o uso de um servidor de desenvolvimento em vez de um servidor WSGI de produção, como Gunicorn ou uWSGI. Embora o servidor de desenvolvimento seja adequado para testes locais, ele não é seguro e escalável o suficiente para um ambiente de produção. Essa situação exige que o projeto migre para um servidor mais robusto antes de ser lançado para um público mais amplo.
+
+**2. Problemas com Autenticação e Redirecionamento de Login**
+Houve diversos erros relacionados ao login, com o servidor frequentemente retornando códigos de resposta HTTP 500. Isso indica um erro interno no servidor, provavelmente devido a problemas de configuração ou de lógica na autenticação Firebase. Além disso, havia desafios em redirecionar o usuário para a página inicial após um login bem-sucedido, especialmente quando não estava autenticado, o que fazia com que o sistema ficasse preso em um loop de tentativa de autenticação.
+
+**3. Erros de Rota HTTP 404 - Páginas Não Encontradas**
+O sistema também enfrentou vários erros 404, causados por acessos a rotas incorretas ou inexistentes, como "/index", "/teste" e "/favicon.ico". Esses erros geralmente ocorreram durante o desenvolvimento e teste de novas funcionalidades, ao se esquecer de criar uma rota correspondente ou ao inserir o endereço incorreto. Para resolver isso, foi necessário revisar e garantir que todas as rotas essenciais fossem configuradas corretamente.
+
+**4. Configuração e Conexão do Banco de Dados MySQL**
+No início, houve dificuldades na configuração do banco de dados MySQL, visto que a conexão com o banco local não foi bem-sucedida nas primeiras tentativas. Esse problema foi causado por permissões incorretas e configurações de acesso ao banco de dados. Foram necessários ajustes nas credenciais e na string de conexão para que o sistema pudesse acessar e manipular dados no MySQL.
+
+**5. Problemas com o JavaScript e Manipulação do DOM**
+Em várias instâncias, houve problemas na atualização dinâmica de conteúdo no front-end. Isso incluiu falhas no uso de jQuery e JavaScript para carregar ou manipular dados exibidos na interface. Por exemplo, funções JavaScript não carregavam adequadamente, levando a uma experiência de usuário inconsistentes. Foi necessário depurar o código JavaScript e reorganizar os scripts para garantir que o DOM fosse carregado antes de qualquer manipulação.
+
+**6. Falhas na Validação e Sanitização de Dados**
+A validação de dados do formulário apresentou desafios, resultando em dados inconsistentes no banco de dados. Foi necessário implementar validações rigorosas para campos numéricos, datas e entradas de texto, garantindo que apenas dados válidos e sanitizados fossem armazenados.
+
+**Conclusão**
+Esses desafios foram críticos para a evolução do sistema, pois permitiram uma melhor compreensão das ferramentas utilizadas e dos requisitos de um sistema de produção. A resolução desses erros também contribuiu para a criação de um código mais robusto e seguro, bem como para o entendimento dos princípios de boas práticas no desenvolvimento web. O processo de correção envolveu pesquisa, aprendizado e testes rigorosos, o que culminou em uma versão mais confiável e eficaz do projeto de controle de estoque.

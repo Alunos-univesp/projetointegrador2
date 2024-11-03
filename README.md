@@ -1,77 +1,115 @@
 Controle de Mercadorias
-Este projeto é um sistema de controle de mercadorias destinado a pequenas e médias empresas. Ele permite aos usuários gerenciar seu inventário de produtos, incluindo adição, edição, exclusão e visualização de itens. O sistema também suporta o rastreamento de vendas e estoque em tempo real.
+Este projeto é um sistema de controle de mercadorias destinado a pequenas e médias empresas. Ele permite aos usuários gerenciar o inventário de produtos, incluindo funcionalidades para adicionar, editar, excluir e visualizar itens. O sistema também suporta o rastreamento de vendas e controle de estoque em tempo real.
 
 Requisitos do Sistema
 Para executar o sistema de controle de mercadorias, você precisará dos seguintes requisitos:
 
 Python 3.x: Certifique-se de ter o Python 3.x instalado em seu sistema. Você pode baixar e instalar a versão mais recente do Python no site oficial: python.org.
 
-Flask: O sistema utiliza o framework Flask para desenvolvimento web em Python. Você pode instalar o Flask usando o pip, o gerenciador de pacotes do Python. Execute o seguinte comando no terminal para instalar o Flask: pip install Flask
+Flask: O sistema utiliza o framework Flask para desenvolvimento web em Python. Instale o Flask usando o pip, o gerenciador de pacotes do Python, com o comando:
 
-SQLite3: O sistema utiliza o SQLite como banco de dados. O SQLite geralmente já está incluído na instalação padrão do Python. Se não estiver instalado, você pode instalá-lo separadamente ou usar o suporte SQLite integrado ao Python.
+bash
+Copiar código
+pip install Flask
+MySQL: O sistema utiliza o MySQL como banco de dados. Instale o MySQL e crie um banco de dados para o sistema de controle de mercadorias. Certifique-se de configurar as credenciais de acesso no arquivo de configuração do projeto.
 
-O Cloud Firestore é um banco de dados NoSQL flexível e escalável para desenvolvimento de aplicativos móveis, web e de servidor a partir do Firebase e do Google Cloud Platform. Ele oferece sincronização em tempo real e suporte offline, o que o torna uma excelente opção para aplicativos que precisam de compartilhamento de dados entre usuários em tempo real
+Cloud Firestore: O sistema também usa o Cloud Firestore, um banco de dados NoSQL do Firebase e Google Cloud Platform, para armazenar e sincronizar dados em tempo real e offline. Certifique-se de configurar o Firebase para usar o Firestore antes de prosseguir com a instalação.
 
 Certifique-se de que todos esses requisitos estejam instalados corretamente em seu sistema antes de prosseguir com a instalação e execução do sistema de controle de mercadorias.
 
 Instalação
-Clone o repositório: git clone https://github.com/Alunos-univesp/projeto-integrador-univesp.git
-Navegue até a pasta do projeto: cd projeto-integrador-univesp
-Instale as dependências: pip install -r requirements.txt
-Inicialize o banco de dados: Execute o arquivo create_db.py para criar o banco de dados SQLite necessário para o funcionamento do sistema; python create_db.py
-Inicie o servidor local: python app.py
-Acesse o sistema.
-Dicas adicionais:
-Certifique-se de ter o Python instalado em seu sistema antes de prosseguir com a instalação. Ao executar o servidor local, verifique se não há erros no terminal. Se ocorrerem erros, verifique se todas as dependências estão instaladas corretamente. Caso encontre problemas durante a instalação ou execução, consulte a documentação do projeto ou entre em contato com a equipe de suporte para obter assistência. Seguindo estas instruções, você poderá instalar, executar e acessar o sistema de controle de mercadorias em sua máquina local.
+Clone o repositório:
 
+bash
+Copiar código
+git clone https://github.com/Alunos-univesp/projeto-integrador-univesp.git
+Navegue até a pasta do projeto:
+
+bash
+Copiar código
+cd projeto-integrador-univesp
+Instale as dependências:
+
+bash
+Copiar código
+pip install -r requirements.txt
+Configure o MySQL:
+
+Certifique-se de que o MySQL está instalado e em execução.
+Crie um banco de dados para o sistema:
+sql
+Copiar código
+CREATE DATABASE controle_estoque;
+Atualize as configurações de conexão ao MySQL no arquivo de configuração do projeto (app.py ou o arquivo de configuração correspondente) com suas credenciais, por exemplo:
+python
+Copiar código
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://usuario:senha@localhost/controle_estoque'
+Inicialize o banco de dados:
+
+Execute o arquivo create_db.py para criar as tabelas no banco de dados MySQL.
+bash
+Copiar código
+python create_db.py
+Inicie o servidor local:
+
+bash
+Copiar código
+python app.py
+Acesse o sistema: Após iniciar o servidor, abra seu navegador e acesse o seguinte endereço:
+
+arduino
+Copiar código
+http://127.0.0.1:5000/login
+Dicas adicionais:
+Certifique-se de que o MySQL está configurado corretamente e que as credenciais estão corretas no código.
+Verifique se todas as dependências estão instaladas corretamente. Em caso de erros ao iniciar o servidor, revise as dependências e os logs no terminal.
+Consulte a documentação do projeto ou entre em contato com a equipe de suporte para obter assistência adicional.
 Uso
-Após concluir a instalação: Para acessar o sistema de controle de mercadorias, abra o navegador da web de sua preferência e digite o seguinte endereço na barra de URL: http://127.0.0.1:5000/login.
+Acessando o Sistema
+Após concluir a instalação, abra o navegador e acesse:
 
-Adicionando um novo produto ao inventário:
-
-Após fazer login no sistema, navegue até a seção "Adicionar Produto".
-
-Preencha o formulário com as informações necessárias para o novo produto. Certifique-se de fornecer detalhes precisos, como nome, marca, código, custo, quantidade, data de inclusão e data de validade.
-
-Após preencher todos os campos obrigatórios do formulário, clique no botão "Adicionar" ou "Salvar" para registrar o novo produto no inventário.
-
-Visualizando produtos no inventário:
-
-Após adicionar novos produtos, você pode visualizá-los na página estoque. Aqui estão algumas etapas para encontrar os produtos:
-
-Navegue até a página principal do sistema após fazer login.
-
-Procure por uma seção intitulada "Estoque" ou "Lista de Produtos". Você deve encontrar uma lista de todos os produtos disponíveis, incluindo os que você adicionou recentemente.
-
-3.Utilize qualquer funcionalidade de filtro ou pesquisa fornecida pelo sistema para encontrar produtos específicos, se necessário. Por exemplo, você pode filtrar por nome, código, marca, etc.
-
-Dicas adicionais:
-
-Certifique-se de revisar todas as informações antes de adicionar um novo produto para garantir que estejam corretas e atualizadas. Se precisar editar ou remover um produto existente, navegue até a página de detalhes do produto e utilize as opções fornecidas pelo sistema. Mantenha seu inventário organizado e atualizado regularmente para refletir com precisão os produtos disponíveis. Seguindo essas orientações, você poderá navegar pelo sistema, adicionar novos produtos com facilidade e gerenciar seu inventário de forma eficaz.
-
+arduino
+Copiar código
+http://127.0.0.1:5000/login
+Adicionando um Novo Produto ao Inventário
+Faça login no sistema.
+Navegue até a seção "Adicionar Produto".
+Preencha o formulário com informações do novo produto, incluindo nome, marca, código, custo, quantidade, data de inclusão e data de validade.
+Clique em "Adicionar" ou "Salvar" para registrar o produto no inventário.
+Visualizando Produtos no Inventário
+Após adicionar novos produtos, acesse a página de "Estoque" para visualizar a lista completa de produtos.
+A lista exibe todos os produtos disponíveis, incluindo os recentemente adicionados.
+Utilize as funcionalidades de filtro ou pesquisa para encontrar produtos específicos, caso necessário.
+Dicas Adicionais para o Inventário
+Revise todas as informações antes de adicionar um novo produto para garantir precisão.
+Para editar ou remover um produto existente, acesse a página de detalhes do produto e utilize as opções disponíveis.
+Mantenha seu inventário atualizado regularmente para refletir os produtos disponíveis.
 Contribuindo
-Contribuições são sempre bem-vindas! Se você deseja contribuir, por favor:
+Contribuições são sempre bem-vindas! Para contribuir:
 
 Faça um fork do projeto:
-Fazer um fork significa criar uma cópia do projeto original em sua própria conta do GitHub. Isso permite que você trabalhe em suas próprias alterações sem afetar o projeto original. Para fazer um fork, basta clicar no botão "Fork" no canto superior direito da página do projeto no GitHub.
 
+No GitHub, clique no botão "Fork" no canto superior direito da página do projeto para criar uma cópia do repositório em sua conta.
 Crie uma nova branch para suas modificações:
-Uma branch é uma ramificação do código que permite que você trabalhe em novas funcionalidades ou correções de bugs sem interferir no código principal. Você deve criar uma nova branch para cada conjunto de modificações que você fizer. Por exemplo, você pode nomear a branch de acordo com a funcionalidade que está implementando ou o problema que está corrigindo. Você pode criar uma nova branch usando o comando git checkout -b nome-da-sua-branch.
 
+bash
+Copiar código
+git checkout -b nome-da-sua-branch
 Faça commit das suas alterações:
-Depois de fazer suas alterações no código, você precisa confirmá-las localmente usando o comando git commit. Certifique-se de adicionar uma mensagem de commit descritiva que explique as alterações que você fez. Isso ajudará outras pessoas a entenderem suas modificações quando revisarem seu código.
 
+Após fazer as modificações no código, confirme-as localmente usando o comando:
+bash
+Copiar código
+git commit -m "Descrição das alterações"
 Faça push para a branch:
-Depois de confirmar suas alterações localmente, você precisa enviá-las para o seu fork no GitHub usando o comando git push. Isso atualizará sua branch remota com as alterações que você fez localmente.
 
+bash
+Copiar código
+git push origin nome-da-sua-branch
 Abra um Pull Request:
-Depois de enviar suas alterações para o seu fork no GitHub, você pode abrir um Pull Request (PR) para solicitar que suas modificações sejam mescladas ao projeto original. No GitHub, vá para a página do seu fork e clique no botão "New Pull Request". Escolha a branch que você acabou de enviar e a branch principal do projeto original. Forneça uma descrição detalhada das alterações que você fez e clique em "Create Pull Request" para abrir o PR.
 
+No GitHub, acesse o repositório do seu fork, clique em "New Pull Request" e selecione a branch principal do projeto original para solicitar a mesclagem.
 Depois de abrir o PR, outros colaboradores poderão revisar suas alterações, fazer comentários e sugerir modificações. Uma vez revisado e aprovado, seu PR poderá ser mesclado ao projeto original pelo mantenedor do projeto.
-
-Seguindo esses passos, você estará contribuindo de forma eficaz para o projeto, ajudando a melhorá-lo e a torná-lo mais robusto para todos os usuários.
 
 Licença
 Este projeto está licenciado sob a Licença MIT. Veja o arquivo LICENSE para detalhes.
-
-Espero que isso atenda às suas necessidades! Se precisar de mais alguma coisa, estou à disposição.

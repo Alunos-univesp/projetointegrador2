@@ -1,5 +1,5 @@
 Flask
 Flask-SQLAlchemy
-Flask-Migrate
 firebase-admin
+Flask-Migrate
 pymysql
