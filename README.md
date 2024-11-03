@@ -1,4 +1,6 @@
 Controle de Mercadorias
+
+
 Este projeto é um sistema de controle de mercadorias destinado a pequenas e médias empresas. Ele permite aos usuários gerenciar o inventário de produtos, incluindo funcionalidades para adicionar, editar, excluir e visualizar itens. O sistema também suporta o rastreamento de vendas e controle de estoque em tempo real.
 
 Requisitos do Sistema
