@@ -7,6 +7,7 @@ from firebase_admin import credentials, firestore
 import os
 import sys
 import logging
+from sqlalchemy import func
 
 # Configuração da aplicação Flask
 app = Flask(__name__, template_folder='./templates')
@@ -19,7 +20,7 @@ def datetimeformat(value, format='%d-%m-%Y'):
         return datetime.strptime(value, '%Y-%m-%d').strftime(format)
     return value
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://controle_estoque_postgres_user:wx35ZLHmY1gnRG62W6WPJqlqawQDDN8J@dpg-cslc0obv2p9s7383n3j0-a.oregon-postgres.render.com/controle_estoque_postgres'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'postgresql://controle_estoque_postgres_user:wx35ZLHmY1gnRG62W6WPJqlqawQDDN8J@dpg-cslc0obv2p9s7383n3j0-a.oregon-postgres.render.com/controle_estoque_postgres')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
@@ -133,7 +134,7 @@ def cadastro_mercadoria():
 @app.route('/lista-produtos-proximo-vencimento')
 def lista_produtos_proximo_vencimento():
     produtos = Produto.query.filter(
-        db.func.DATEDIFF(Produto.data_validade, db.func.now()) <= 30
+        (func.date(Produto.data_validade) - func.current_date()) <= 30
     ).all()
     return render_template('lista_produtos_proximo_vencimento.html', produtos=produtos)
 
