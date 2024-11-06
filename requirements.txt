@@ -3,3 +3,4 @@ Flask-SQLAlchemy
 firebase-admin
 Flask-Migrate
 pymysql
+gunicorn
