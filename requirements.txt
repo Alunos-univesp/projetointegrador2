@@ -5,3 +5,5 @@ Flask-Migrate
 pymysql
 gunicorn
 psycopg2-binary
+pandas
+xlsxwriter

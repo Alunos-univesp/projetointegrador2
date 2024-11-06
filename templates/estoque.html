@@ -10,13 +10,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         .table-container { margin-top: 20px; }
-        .highlight-red td { background-color: #ffdddd !important; } /* Fundo vermelho claro para <= 7 dias */
-        .highlight-yellow td { background-color: #fff3cd !important; } /* Fundo amarelo claro para <= 14 dias */
+        .highlight-red td { background-color: #ffdddd !important; }
+        .highlight-yellow td { background-color: #fff3cd !important; }
         .expired { background-color: #f8d7da; }
         .fade-in { opacity: 0; animation: fadeIn 0.5s forwards; }
         @keyframes fadeIn { to { opacity: 1; } }
 
-        /* Estilização para o email do usuário */
         .user-email {
             background-color: #f0f0f0;
             color: #333;
@@ -28,7 +27,6 @@
             align-items: center;
         }
 
-        /* Uniformizar o tamanho dos botões */
         .btn-sm {
             width: 80px;
         }
@@ -102,26 +100,6 @@
         </div>
     </div>
 
-    <!-- Modal para Detalhes do Produto -->
-    <div class="modal fade" id="detalhesModal" tabindex="-1" role="dialog" aria-labelledby="detalhesModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="detalhesModalLabel">Detalhes do Produto</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" id="detalhesModalBody">
-                    <!-- Detalhes do produto vão aparecer aqui -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Scripts para Bootstrap, DataTables, jQuery e Firebase -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
@@ -159,6 +137,10 @@
                 console.error('Erro ao fazer logout', error);
             });
         }
+
+        document.getElementById("downloadExcelBtn").addEventListener("click", function () {
+            window.location.href = "/download_excel";
+        });
 
         function confirmarExclusao(id) {
             if (confirm('Tem certeza que deseja excluir este produto?')) {
