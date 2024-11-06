@@ -4,3 +4,4 @@ firebase-admin
 Flask-Migrate
 pymysql
 gunicorn
+psycopg2-binary

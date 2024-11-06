@@ -19,9 +19,9 @@ def datetimeformat(value, format='%d-%m-%Y'):
         return datetime.strptime(value, '%Y-%m-%d').strftime(format)
     return value
 
-# Configuração da URI do MySQL (substitua com a URL correta do Render, se aplicável)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'mysql+pymysql://root:123456@localhost/controle_estoque')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://controle_estoque_postgres_user:wx35ZLHmY1gnRG62W6WPJqlqawQDDN8J@dpg-cslc0obv2p9s7383n3j0-a.oregon-postgres.render.com/controle_estoque_postgres'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 
 # Inicializa o banco de dados SQLAlchemy e Flask-Migrate
 db = SQLAlchemy(app)
