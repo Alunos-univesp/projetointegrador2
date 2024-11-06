@@ -15,21 +15,8 @@
         .expired { background-color: #f8d7da; }
         .fade-in { opacity: 0; animation: fadeIn 0.5s forwards; }
         @keyframes fadeIn { to { opacity: 1; } }
-
-        .user-email {
-            background-color: #f0f0f0;
-            color: #333;
-            padding: 5px 12px;
-            border-radius: 15px;
-            font-size: 0.9rem;
-            margin-right: 15px;
-            display: flex;
-            align-items: center;
-        }
-
-        .btn-sm {
-            width: 80px;
-        }
+        .user-email { background-color: #f0f0f0; color: #333; padding: 5px 12px; border-radius: 15px; font-size: 0.9rem; margin-right: 15px; display: flex; align-items: center; }
+        .btn-sm { width: 80px; }
     </style>
 </head>
 <body>
@@ -86,9 +73,7 @@
                         <td>R$ {{ "%.2f"|format(produto.custo) if produto.custo is not none else 'N/A' }}</td>
                         <td>{{ produto.data_inclusao | default('Data não disponível') | datetimeformat('%d-%m-%Y') }}</td>
                         <td>{{ produto.data_validade | default('Data não disponível') | datetimeformat('%d-%m-%Y') }}</td>
-                        <td>
-                            {{ produto.dias_ate_vencimento | default('N/A') }}
-                        </td>
+                        <td>{{ produto.dias_ate_vencimento | default('N/A') }}</td>
                         <td class="btn-container">
                             <button type="button" class="btn btn-sm btn-info" onclick="verDetalhes('{{ produto.id }}')"><i class="fas fa-info-circle"></i> Detalhes</button>
                             <button type="button" class="btn btn-sm btn-danger" onclick="confirmarExclusao('{{ produto.id }}')"><i class="fas fa-trash-alt"></i> Excluir</button>
@@ -97,6 +82,26 @@
                     {% endfor %}
                 </tbody>
             </table>
+        </div>
+    </div>
+
+    <!-- Modal para Detalhes do Produto -->
+    <div class="modal fade" id="detalhesModal" tabindex="-1" role="dialog" aria-labelledby="detalhesModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="detalhesModalLabel">Detalhes do Produto</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="detalhesModalBody">
+                    <!-- Detalhes do produto vão aparecer aqui -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
         </div>
     </div>
 
