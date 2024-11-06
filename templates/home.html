@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página Inicial - Controle de Estoque</title>
-    <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
@@ -14,31 +13,34 @@
             align-items: center;
             justify-content: center;
             width: 100%;
-            text-align: center; /* Alinhar texto ao centro */
+            text-align: center;
         }
+
         /* Estilizando o botão "Sair" */
         .navbar-nav .dropdown-item {
             cursor: pointer;
-            color: #dc3545; /* Cor do texto */
+            color: #dc3545;
         }
         .navbar-nav .dropdown-item:hover {
-            background-color: transparent; /* Remover fundo ao passar o mouse */
+            background-color: transparent;
         }
+
         /* Alinhar o botão "Sair" à direita */
         .ml-auto {
             margin-left: auto !important;
         }
+
         /* Estilizando a área de botões */
         .vertical-center {
             min-height: 100vh; 
             display: flex;
             align-items: center; 
             justify-content: center; 
-            position: relative; /* Para que o conteúdo fique sobre o vídeo */
-            z-index: 2; /* Certifique-se de que o conteúdo esteja acima do vídeo */
+            position: relative;
+            z-index: 2;
         }
         .btn-group-vertical > a {
-            margin-bottom: 10px; 
+            margin-bottom: 10px;
         }
 
         /* Estilo para o vídeo de fundo */
@@ -48,55 +50,55 @@
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Faz o vídeo cobrir a tela toda sem distorcer */
-            z-index: 1; /* Coloca o vídeo atrás do conteúdo */
+            object-fit: cover;
+            z-index: 1;
         }
 
-        /* Adicionando uma camada de sobreposição para melhorar o contraste */
+        /* Sobreposição para contraste */
         .overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5); /* Camada escura semitransparente */
+            background-color: rgba(0, 0, 0, 0.6);
             z-index: 1;
         }
 
-        /* Melhorar a visibilidade do texto */
+        /* Melhor visibilidade de texto */
         .content {
             position: relative;
             z-index: 2;
             color: white;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Adicionando sombra ao texto */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
         }
 
         .navbar, .btn, h3 {
-            color: white !important; /* Garante que o texto nos botões e navbar fique legível */
+            color: white !important;
         }
     </style>
 </head>
 <body>
 
     <!-- Vídeo de fundo -->
-    <video id="background-video" autoplay loop muted>
+    <video id="background-video" autoplay loop muted aria-hidden="true">
         <source src="https://media.istockphoto.com/id/1765876351/pt/v%C3%ADdeo/tablet-walking-or-man-with-factory-logistics-for-a-delivery-order-in-workshop-for-stock.mp4?s=mp4-640x640-is&k=20&c=9OT7a66AGxWv7f5bIfETw8NlRakTUzM6998Ci7HX9Nc=" type="video/mp4">
         Seu navegador não suporta o vídeo.
     </video>
 
-    <!-- Sobreposição para contraste -->
+    <!-- Sobreposição -->
     <div class="overlay"></div>
 
     <!-- Navbar com usuário logado e botão de logout -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">Controle de Estoque</a>
-        <ul class="navbar-nav ml-auto"> <!-- A classe ml-auto alinha o elemento à direita -->
+        <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Usuário: <span id="user-name">Carregando...</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#" onclick="logout()">Sair</a> <!-- Botão Sair -->
+                    <a class="dropdown-item" href="#" onclick="logout()">Sair</a>
                 </div>
             </li>
         </ul>
@@ -106,9 +108,9 @@
         <div>
             <h3 class="text-center mb-4">Sistema de Controle de Estoque</h3>
             <div class="btn-group-vertical">
-                <a href="/cadastro-mercadoria" class="btn btn-primary btn-lg">Cadastro de Mercadoria</a>
-                <a href="/lista-produtos-proximo-vencimento" class="btn btn-warning btn-lg">Lista de Produtos Próximo ao Vencimento</a>
-                <a href="/estoque" class="btn btn-success btn-lg">Estoque</a>
+                <a href="/cadastro-mercadoria" class="btn btn-primary btn-lg" role="button">Cadastro de Mercadoria</a>
+                <a href="/lista-produtos-proximo-vencimento" class="btn btn-warning btn-lg" role="button">Lista de Produtos Próximo ao Vencimento</a>
+                <a href="/estoque" class="btn btn-success btn-lg" role="button">Estoque</a>
             </div>
         </div>
     </div>
@@ -117,7 +119,6 @@
     <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-auth.js"></script>
     <script>
-        // Sua configuração do Firebase
         var firebaseConfig = {
             apiKey: "AIzaSyCCTTKM8tFMwxcYULKZwrBNO8W8hkbW_PM",
             authDomain: "controle-de-mercadoria.firebaseapp.com",
@@ -146,7 +147,7 @@
     </script>
 
     <!-- Bootstrap JS and jQuery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>

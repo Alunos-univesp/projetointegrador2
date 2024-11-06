@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <meta name="description" content="Faça login para acessar o sistema de controle de mercadorias.">
+    <title>Login - Controle de Mercadoria</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -29,21 +30,25 @@
             width: 100%;
             max-width: 400px;
             padding: 15px;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.8);
             box-shadow: 0 4px 6px rgba(0, 0, 0, .1);
             border-radius: 5px;
         }
 
         .form-signin .form-control {
-            position: relative;
             height: auto;
             padding: 10px;
             font-size: 16px;
             background: rgba(255, 255, 255, 0.8);
+            color: #333;
         }
 
         .form-signin input[type="email"], .form-signin input[type="password"] {
             margin-bottom: 10px;
+        }
+
+        .btn-primary:disabled {
+            background-color: #6c757d;
         }
     </style>
 
@@ -64,13 +69,13 @@
 </head>
 <body>
     <div class="brand">Controle de Mercadoria</div>
-    <div class="form-signin">
-        <h2 class="text-center">Login</h2>
-        <input type="email" id="inputEmail" class="form-control" placeholder="Endereço de Email" required autofocus>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Senha" required>
-        <button class="btn btn-lg btn-primary btn-block" onclick="login()" id="loginButton">Entrar</button>
+    <div class="form-signin" role="main" aria-labelledby="login-title">
+        <h2 id="login-title" class="text-center">Login</h2>
+        <input type="email" id="inputEmail" class="form-control" placeholder="Endereço de Email" required aria-label="Endereço de Email" autofocus>
+        <input type="password" id="inputPassword" class="form-control" placeholder="Senha" required aria-label="Senha">
+        <button class="btn btn-lg btn-primary btn-block" onclick="login()" id="loginButton" aria-label="Entrar">Entrar</button>
         <div class="text-center mt-3">
-            <a href="#" onclick="resetPassword()">Esqueceu a senha?</a>
+            <a href="#" onclick="resetPassword()" aria-label="Esqueceu a senha?">Esqueceu a senha?</a>
         </div>
     </div>
     <script>
@@ -79,13 +84,11 @@
             var password = document.getElementById('inputPassword').value;
             var loginButton = document.getElementById('loginButton');
 
-            // Valida se os campos estão preenchidos
             if (!email || !password) {
                 alert("Por favor, preencha todos os campos.");
                 return;
             }
 
-            // Mostra feedback de carregamento no botão
             loginButton.textContent = 'Carregando...';
             loginButton.disabled = true;
 
