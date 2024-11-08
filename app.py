@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, send_file
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from datetime import datetime
@@ -8,6 +8,8 @@ import os
 import sys
 import logging
 from sqlalchemy import func
+import pandas as pd
+from io import BytesIO
 
 # Configuração da aplicação Flask
 app = Flask(__name__, template_folder='./templates')
@@ -22,7 +24,6 @@ def datetimeformat(value, format='%d-%m-%Y'):
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'postgresql://controle_estoque_postgres_user:wx35ZLHmY1gnRG62W6WPJqlqawQDDN8J@dpg-cslc0obv2p9s7383n3j0-a.oregon-postgres.render.com/controle_estoque_postgres')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
 
 # Inicializa o banco de dados SQLAlchemy e Flask-Migrate
 db = SQLAlchemy(app)
@@ -151,6 +152,33 @@ def detalhes_produto(id):
         "data_inclusao": produto.data_inclusao,
         "data_validade": produto.data_validade
     }) if produto else jsonify({"error": "Produto não encontrado"}), 404
+
+# Rota para download da planilha
+@app.route('/download_excel')
+def download_excel():
+    produtos = Produto.query.all()
+    if not produtos:
+        flash("Nenhum produto encontrado para exportar.", "warning")
+        return redirect(url_for('estoque'))
+    data = {
+        "ID": [produto.id for produto in produtos],
+        "Código": [produto.codigo for produto in produtos],
+        "Nome": [produto.nome for produto in produtos],
+        "Categoria": [produto.marca for produto in produtos],
+        "Informações": [produto.informacoes for produto in produtos],
+        "Quantidade": [produto.quantidade for produto in produtos],
+        "Custo": [produto.custo for produto in produtos],
+        "Data de Inclusão": [produto.data_inclusao for produto in produtos],
+        "Data de Validade": [produto.data_validade for produto in produtos],
+        "Dias até Vencimento": [produto.dias_ate_vencimento for produto in produtos]
+    }
+    df = pd.DataFrame(data)
+    output = BytesIO()
+    with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
+        df.to_excel(writer, index=False, sheet_name='Estoque')
+    output.seek(0)
+    
+    return send_file(output, as_attachment=True, download_name='estoque_produtos.xlsx', mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
 
 if __name__ == '__main__':
     app.run(debug=True)
