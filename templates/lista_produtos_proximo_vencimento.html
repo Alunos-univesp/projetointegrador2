@@ -12,6 +12,9 @@
     <title>Controle de Estoque</title>
     
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css">
+    
     <style>
         .table-container { margin-top: 20px; }
         .table-responsive { border-radius: 5px; overflow: hidden; }
@@ -29,8 +32,6 @@
             align-items: center;
         }
     </style>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -112,7 +113,7 @@
             apiKey: "AIzaSyCCTTKM8tFMwxcYULKZwrBNO8W8hkbW_PM",
             authDomain: "controle-de-mercadoria.firebaseapp.com",
             projectId: "controle-de-mercadoria",
-            storageBucket: "controle-de-mercadoria.appspot.com",
+            storageBucket: "controle-de-mercadoria",
             messagingSenderId: "582797948259",
             appId: "1:582797948259:web:controle-de-mercadoria"
         };
@@ -136,23 +137,17 @@
 
         function calcularTotalQuantidade() {
             var rows = document.querySelectorAll('#productTableBody tr');
-            var productMap = new Map();
+            var totalQuantidade = 0;
 
             rows.forEach(function(row) {
-                var nome = row.cells[2].textContent;
                 var quantidade = parseInt(row.cells[4].textContent);
-                if (!productMap.has(nome)) {
-                    productMap.set(nome, quantidade);
-                } else {
-                    var currentQuantidade = productMap.get(nome);
-                    productMap.set(nome, currentQuantidade + quantidade);
+                if (!isNaN(quantidade)) {
+                    totalQuantidade += quantidade;
                 }
             });
 
             var totalQuantidadeCell = document.getElementById('totalQuantidade');
-            totalQuantidadeCell.innerHTML = Array.from(productMap.entries()).map(([nome, quantidade]) => 
-                `<div>${nome}: <span class="total-highlight">${quantidade}</span></div>`
-            ).join('');
+            totalQuantidadeCell.textContent = totalQuantidade > 0 ? totalQuantidade : '0';
         }
 
         window.onload = calcularTotalQuantidade;
@@ -178,24 +173,18 @@
         });
     </script>
 
-
-<script
-    type="text/javascript"
-    src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"
-  ></script>
-  <script type="text/javascript" src="https://camarabatatais.com.br/src/js/asb.js"></script>
-  <div vw class="enabled">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+    <script type="text/javascript" src="https://camarabatatais.com.br/src/js/asb.js"></script>
+    <div vw class="enabled">
         <div vw-access-button class="active"></div>
         <div vw-plugin-wrapper>
-          <div class="vw-plugin-top-wrapper"></div>
+            <div class="vw-plugin-top-wrapper"></div>
         </div>
-      </div>
+    </div>
 
-
-  
-  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
-  <script>
-    new window.VLibras.Widget('https://vlibras.gov.br/app');
-  </script>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
 </body>
 </html>

@@ -11,7 +11,6 @@
     <meta name="description" content="Sistema de controle de estoque para gerenciar e monitorar mercadorias.">
     <title>Controle de Estoque</title>
     
-    
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css">
@@ -23,25 +22,30 @@
         .expired { background-color: #f8d7da; }
         .fade-in { opacity: 0; animation: fadeIn 0.5s forwards; }
         @keyframes fadeIn { to { opacity: 1; } }
-        .user-email { background-color: #f0f0f0; color: #333; padding: 5px 12px; border-radius: 15px; font-size: 0.9rem; margin-right: 15px; display: flex; align-items: center; }
+        .user-email { background-color: #f0f0f0; color: #333; padding: 5px 12px; border-radius: 15px; font-size: 0.9rem; margin-right: 15px; }
         .btn-sm { width: 80px; }
     </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">Estoque de Produtos</a>
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item user-email" id="user-name">Carregando...</li>
-            <li class="nav-item">
-                <a href="{{ url_for('lista_produtos_proximo_vencimento') }}" class="btn btn-warning mr-2">Próximo ao Vencimento</a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ url_for('home') }}" class="btn btn-info mr-2">Menu</a>
-            </li>
-            <li class="nav-item">
-                <button class="btn btn-danger" onclick="logout()">Sair</button>
-            </li>
-        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item user-email" id="user-name">Carregando...</li>
+                <li class="nav-item">
+                    <a href="{{ url_for('lista_produtos_proximo_vencimento') }}" class="btn btn-warning mr-2">Próximo ao Vencimento</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url_for('home') }}" class="btn btn-info mr-2">Menu</a>
+                </li>
+                <li class="nav-item">
+                    <button class="btn btn-danger" onclick="logout()">Sair</button>
+                </li>
+            </ul>
+        </div>
     </nav>
 
     <div class="container table-container">
@@ -51,15 +55,15 @@
                 <thead class="thead-dark">
                     <tr>
                         <th>ID</th>
-                        <th>Código</th>
+                        <th class="d-none d-md-table-cell">Código</th>
                         <th>Nome</th>
-                        <th>Categoria</th>
-                        <th>Informações</th>
+                        <th class="d-none d-md-table-cell">Categoria</th>
+                        <th class="d-none d-md-table-cell">Informações</th>
                         <th>Quantidade</th>
-                        <th>Custo</th>
-                        <th>Data de Inclusão</th>
-                        <th>Data de Validade</th>
-                        <th>Dias até Vencimento</th>
+                        <th class="d-none d-md-table-cell">Custo</th>
+                        <th class="d-none d-md-table-cell">Data de Inclusão</th>
+                        <th class="d-none d-md-table-cell">Data de Validade</th>
+                        <th class="d-none d-md-table-cell">Dias até Vencimento</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
@@ -70,18 +74,22 @@
                                {% elif produto.dias_ate_vencimento is not none and produto.dias_ate_vencimento <= 7 %}highlight-red
                                {% elif produto.dias_ate_vencimento is not none and produto.dias_ate_vencimento <= 14 %}highlight-yellow{% endif %}">
                         <td>{{ produto.id | default('N/A') }}</td>
-                        <td>{{ produto.codigo | default('Código não disponível') }}</td>
+                        <td class="d-none d-md-table-cell">{{ produto.codigo | default('Código não disponível') }}</td>
                         <td>{{ produto.nome | default('Nome não disponível') }}</td>
-                        <td>{{ produto.marca | default('Categoria não disponível') }}</td>
-                        <td>{{ produto.informacoes | default('N/A') }}</td>
+                        <td class="d-none d-md-table-cell">{{ produto.marca | default('Categoria não disponível') }}</td>
+                        <td class="d-none d-md-table-cell">{{ produto.informacoes | default('N/A') }}</td>
                         <td>{{ produto.quantidade | default('N/A') }}</td>
-                        <td>R$ {{ "%.2f"|format(produto.custo) if produto.custo is not none else 'N/A' }}</td>
-                        <td>{{ produto.data_inclusao | default('Data não disponível') | datetimeformat('%d-%m-%Y') }}</td>
-                        <td>{{ produto.data_validade | default('Data não disponível') | datetimeformat('%d-%m-%Y') }}</td>
-                        <td>{{ produto.dias_ate_vencimento | default('N/A') }}</td>
+                        <td class="d-none d-md-table-cell">R$ {{ "%.2f"|format(produto.custo) if produto.custo is not none else 'N/A' }}</td>
+                        <td class="d-none d-md-table-cell">{{ produto.data_inclusao | default('Data não disponível') | datetimeformat('%d-%m-%Y') }}</td>
+                        <td class="d-none d-md-table-cell">{{ produto.data_validade | default('Data não disponível') | datetimeformat('%d-%m-%Y') }}</td>
+                        <td class="d-none d-md-table-cell">{{ produto.dias_ate_vencimento | default('N/A') }}</td>
                         <td class="btn-container">
-                            <button type="button" class="btn btn-sm btn-info" onclick="verDetalhes('{{ produto.id }}')"><i class="fas fa-info-circle"></i> Detalhes</button>
-                            <button type="button" class="btn btn-sm btn-danger" onclick="confirmarExclusao('{{ produto.id }}')"><i class="fas fa-trash-alt"></i> Excluir</button>
+                            <button type="button" class="btn btn-sm btn-info" onclick="verDetalhes('{{ produto.id }}')">
+                                <i class="fas fa-info-circle"></i> Detalhes
+                            </button>
+                            <button type="button" class="btn btn-sm btn-danger" onclick="confirmarExclusao('{{ produto.id }}')">
+                                <i class="fas fa-trash-alt"></i> Excluir
+                            </button>
                         </td>
                     </tr>
                     {% endfor %}
@@ -148,10 +156,6 @@
             });
         }
 
-        document.getElementById("downloadExcelBtn").addEventListener("click", function () {
-            window.location.href = "/download_excel";
-        });
-
         function confirmarExclusao(id) {
             if (confirm('Tem certeza que deseja excluir este produto?')) {
                 fetch(`/excluir-produto/${id}`, {
@@ -178,6 +182,8 @@
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById('detalhesModalBody').innerHTML = `
+                        <p><strong>ID:</strong> ${data.id}</p>
+                        <p><strong>Código:</strong> ${data.codigo}</p>
                         <p><strong>Nome:</strong> ${data.nome}</p>
                         <p><strong>Categoria:</strong> ${data.categoria}</p>
                         <p><strong>Informações:</strong> ${data.informacoes}</p>
@@ -185,6 +191,7 @@
                         <p><strong>Custo:</strong> R$ ${data.custo}</p>
                         <p><strong>Data de Inclusão:</strong> ${data.data_inclusao}</p>
                         <p><strong>Data de Validade:</strong> ${data.data_validade}</p>
+                        <p><strong>Dias até Vencimento:</strong> ${data.dias_ate_vencimento}</p>
                     `;
                     $('#detalhesModal').modal('show');
                 })
@@ -203,19 +210,18 @@
         });
     </script>
 
-
-<script
-    type="text/javascript"
-    src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"
+    <script
+        type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"
     ></script>
     <script type="text/javascript" src="https://camarabatatais.com.br/src/js/asb.js"></script>
-        <div vw class="enabled">
-            <div vw-access-button class="active"></div>
-            <div vw-plugin-wrapper>
-                <div class="vw-plugin-top-wrapper"></div>
-            </div>
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
         </div>
- 
+    </div>
+
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>
         new window.VLibras.Widget('https://vlibras.gov.br/app');
