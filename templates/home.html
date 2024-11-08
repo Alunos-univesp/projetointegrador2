@@ -1,12 +1,35 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página Inicial - Controle de Estoque</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="src/icons/fontawesome5.9.0/css/all.css" />
+    <link rel="stylesheet" href="src/css/default.css" />
+    <link rel="stylesheet" href="src/css/asb.css" />
+    
+    <meta name="description" content="Sistema de controle de estoque para gerenciar e monitorar mercadorias.">
+    <title>Controle de Estoque</title>
+    
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
+
+        #fixador{
+            -webkit-transition: all .5s ease-in-out;
+            -moz-transition: all .5s ease-in-out;
+            -o-transition: all .5s ease-in-out;
+            transition: all .5s ease-in-out;
+            z-index: 9999;
+            position: fixed;
+            top: 40%;
+            right: 0;
+            transform: translate(100%, -50%);
+            background-color: rgba(34,34,34,.75);
+            border-radius: .5rem 0 0 .5rem;
+            box-shadow: 0 5px 30px rgba(34,34,34,0);
+        }
+
         /* Estilizando o título */
         .navbar-brand {
             display: flex;
@@ -150,5 +173,23 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script
+    type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"
+    ></script>
+    <script type="text/javascript" src="src/js/asb.js"></script>
+    
+        <div id="fixador" vw class="enabled">
+            <div vw-access-button class="active"></div>
+            <div vw-plugin-wrapper>
+                <div class="vw-plugin-top-wrapper"></div>
+            </div>
+        </div>
+    
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
 </body>
 </html>
