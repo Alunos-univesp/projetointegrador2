@@ -4,15 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <!-- Link para Font Awesome CDN para garantir que os ícones sejam carregados corretamente -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css">
+    
     <link rel="stylesheet" href="https://camarabatatais.com.br/src/icons/fontawesome5.9.0/css/all.css" />
     <link rel="stylesheet" href="https://camarabatatais.com.br/src/css/default.css" />
     <link rel="stylesheet" href="https://camarabatatais.com.br/src/css/asb.css" />
     
     <meta name="description" content="Sistema de controle de estoque para gerenciar e monitorar mercadorias.">
-    <title>Controle de Estoque</title>
-    
+    <title>Controle de Validade</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
+    
     <style>
         #fixador {
             -webkit-transition: all .5s ease-in-out;
@@ -98,6 +101,16 @@
         .navbar, .btn, h3 {
             color: white !important;
         }
+
+        /* Estilização para os botões de acessibilidade */
+        .accessibility-buttons {
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
     </style>
 </head>
 <body>
@@ -122,6 +135,10 @@
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="#" onclick="logout()">Sair</a>
                 </div>
+            </li>
+            <!-- Botão do VLibras na navbar -->
+            <li class="nav-item">
+                <button class="btn btn-info" onclick="toggleVLibras()">VLibras</button>
             </li>
         </ul>
     </nav>
@@ -178,17 +195,24 @@
         src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"
     ></script>
     <script type="text/javascript" src="https://camarabatatais.com.br/src/js/asb.js"></script>
-    
-    <div id="fixador" vw class="enabled">
-        <div vw-access-button class="active"></div>
-        <div vw-plugin-wrapper>
-            <div class="vw-plugin-top-wrapper"></div>
+
+    <!-- Botões de acessibilidade e VLibras -->
+    <div class="accessibility-buttons">
+        <!-- Botão de Acessibilidade -->
+        <div vw class="enabled">
+            <div vw-access-button class="active"></div>
+            <div vw-plugin-wrapper>
+                <div class="vw-plugin-top-wrapper"></div>
+            </div>
+        </div>
+
+        <!-- Botão VLibras -->
+        <div>
+            <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+            <script>
+                new window.VLibras.Widget('https://vlibras.gov.br/app');
+            </script>
         </div>
     </div>
-    
-    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
-    <script>
-        new window.VLibras.Widget('https://vlibras.gov.br/app');
-    </script>
 </body>
 </html>

@@ -4,13 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <!-- Font Awesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css">
+
     <link rel="stylesheet" href="https://camarabatatais.com.br/src/icons/fontawesome5.9.0/css/all.css" />
     <link rel="stylesheet" href="https://camarabatatais.com.br/src/css/default.css" />
     <link rel="stylesheet" href="https://camarabatatais.com.br/src/css/asb.css" />
-    
+
     <meta name="description" content="Sistema de controle de estoque para gerenciar e monitorar mercadorias.">
     <title>Controle de Estoque</title>
-    
+
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css">
@@ -31,9 +35,24 @@
             display: flex;
             align-items: center;
         }
+
+        /* Flexbox para os botões de acessibilidade */
+        .accessibility-buttons {
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
+
+        .accessibility-buttons div {
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
+    <!-- Navbar para navegação -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">Produtos Próximos ao Vencimento</a>
         <ul class="navbar-nav ml-auto">
@@ -107,13 +126,13 @@
     <script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-auth.js"></script>
-   
+
     <script>
         var firebaseConfig = {
             apiKey: "AIzaSyCCTTKM8tFMwxcYULKZwrBNO8W8hkbW_PM",
             authDomain: "controle-de-mercadoria.firebaseapp.com",
             projectId: "controle-de-mercadoria",
-            storageBucket: "controle-de-mercadoria",
+            storageBucket: "controle-de-mercadoria.appspot.com",
             messagingSenderId: "582797948259",
             appId: "1:582797948259:web:controle-de-mercadoria"
         };
@@ -172,19 +191,22 @@
             });
         });
     </script>
+  <script
+  type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"
+></script>
+<script type="text/javascript" src="https://camarabatatais.com.br/src/js/asb.js"></script>
+<div vw class="enabled">
+  <div vw-access-button class="active"></div>
+  <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+  </div>
+</div>
 
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
-    <script type="text/javascript" src="https://camarabatatais.com.br/src/js/asb.js"></script>
-    <div vw class="enabled">
-        <div vw-access-button class="active"></div>
-        <div vw-plugin-wrapper>
-            <div class="vw-plugin-top-wrapper"></div>
-        </div>
-    </div>
-
-    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
-    <script>
-        new window.VLibras.Widget('https://vlibras.gov.br/app');
-    </script>
+<script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+<script>
+  new window.VLibras.Widget('https://vlibras.gov.br/app');
+</script>
 </body>
 </html>
+   

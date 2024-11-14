@@ -4,13 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <!-- Font Awesome e CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css">
     <link rel="stylesheet" href="https://camarabatatais.com.br/src/icons/fontawesome5.9.0/css/all.css" />
     <link rel="stylesheet" href="https://camarabatatais.com.br/src/css/default.css" />
     <link rel="stylesheet" href="https://camarabatatais.com.br/src/css/asb.css" />
-    
+
     <meta name="description" content="Sistema de controle de estoque para gerenciar e monitorar mercadorias.">
-    <title>Controle de Estoque</title>
+    <title>Controle de Validade</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    
     <style>
         .navbar-brand, .navbar-nav .nav-link {
             display: flex;
@@ -18,8 +22,6 @@
         }
         .near-expiry { background-color: #ffeeba; }
         .expired { background-color: #f8d7da; }
-        
-        /* Estilização personalizada para o email do usuário */
         .user-email {
             background-color: #f0f0f0;
             color: #333;
@@ -33,7 +35,7 @@
     </style>
 </head>
 <body>
-    <!-- Navbar para navegação -->
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">Cadastro de Mercadorias</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,7 +52,7 @@
         </div>
     </nav>
 
-    <!-- Container principal do Bootstrap para alinhamento e responsividade -->
+    <!-- Formulário de Cadastro de Produto -->
     <div class="container mt-4">
         <h2>Cadastro de Produto</h2>      
         <form id="cadastro-produto-form" method="POST" action="/cadastro-mercadoria" onsubmit="return validateForm()">
@@ -60,11 +62,11 @@
                     <input type="text" class="form-control" id="codigo" name="codigo" required placeholder="Ex: 12345" title="Digite um código numérico único para o produto" oninput="this.value = this.value.toUpperCase()">
                 </div>
                 <div class="form-group col-md-4">
-                    <label for="nomeProduto">Nome do Produto *</label>
+                    <label for="nomeProduto">Protuto *</label>
                     <input type="text" class="form-control" id="nomeProduto" name="nomeProduto" required placeholder="Nome do produto" title="Informe o nome ou marca do produto" oninput="this.value = this.value.toUpperCase()">
                 </div>
                 <div class="form-group col-md-4">
-                    <label for="categoria">Categoria</label>
+                    <label for="categoria">Categoria *</label>
                     <select class="form-control" id="categoria" name="categoria">
                         <option value="">SELECIONE UMA CATEGORIA</option>
                         <option value="FRIOS E LATICÍNIOS">FRIOS E LATICÍNIOS</option>
@@ -84,7 +86,7 @@
             </div>
             <div class="form-row">
                 <div class="form-group col-md-12">
-                    <label for="informacoesProduto">Descrição</label>
+                    <label for="informacoesProduto">Descrição *</label>
                     <textarea class="form-control" id="informacoesProduto" name="informacoesProduto" placeholder="Informações adicionais" oninput="this.value = this.value.toUpperCase()"></textarea>
                 </div>
             </div>
@@ -102,7 +104,7 @@
                     <input type="date" class="form-control" id="dataCadastro" name="dataCadastro" required>
                 </div>
                 <div class="form-group col-md-3">
-                    <label for="dataValidade">Data de Validade</label>
+                    <label for="dataValidade">Data de Validade *</label>
                     <input type="date" class="form-control" id="dataValidade" name="dataValidade">
                 </div>
             </div>
@@ -117,7 +119,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-auth.js"></script>
-    
+
     <script>
         // Configuração Firebase
         var firebaseConfig = {
@@ -140,7 +142,7 @@
                 window.location.href = '/login';
             }
         });
-    
+
         function logout() {
             firebase.auth().signOut().then(function() {
                 window.location.href = '/login';
@@ -148,14 +150,14 @@
                 console.error('Erro ao fazer logout', error);
             });
         }
-    
+
         function validateForm() {
             var codigo = document.getElementById('codigo').value;
             var custo = parseFloat(document.getElementById('custo').value);
             var quantidade = parseInt(document.getElementById('quantidadeProduto').value);
             var dataCadastro = new Date(document.getElementById('dataCadastro').value);
             var dataValidade = new Date(document.getElementById('dataValidade').value);
-            
+
             var errors = [];
             
             if (!/^\d+$/.test(codigo)) {
@@ -195,30 +197,45 @@
             setTimeout(() => feedbackDiv.innerHTML = '', 5000);
         }
 
+        function displaySuccess(message) {
+            var feedbackDiv = document.getElementById('feedback');
+            feedbackDiv.innerHTML = ''; // Limpa mensagens anteriores
+
+            let successElem = document.createElement('div');
+            successElem.className = 'alert alert-success';
+            successElem.innerHTML = message;
+            feedbackDiv.appendChild(successElem);
+        }
+
         document.getElementById('cadastro-produto-form').onsubmit = function(event) {
-            if (validateForm()) {
-                document.getElementById('save-btn').textContent = 'Salvando...';
-                document.getElementById('save-btn').disabled = true;
-                return true;
+    event.preventDefault(); // Impede o envio padrão
+
+    if (validateForm()) {
+        document.getElementById('save-btn').textContent = 'Salvando...';
+        document.getElementById('save-btn').disabled = true;
+        
+        // Envia o formulário e exibe a mensagem de sucesso
+        fetch(this.action, {
+            method: 'POST',
+            body: new FormData(this)
+        }).then(response => {
+            if (response.ok) {
+                displaySuccess('Produto salvo com sucesso!');
+                document.getElementById('cadastro-produto-form').reset(); // Limpa o formulário
             } else {
-                event.preventDefault();
-                return false;
+                displayError(['Erro ao salvar o produto. Tente novamente.']);
             }
-        };
+            document.getElementById('save-btn').textContent = 'Salvar';
+            document.getElementById('save-btn').disabled = false;
+        }).catch(error => {
+            displayError(['Erro ao salvar o produto. Tente novamente.']);
+            console.error(error);
+            document.getElementById('save-btn').textContent = 'Salvar';
+            document.getElementById('save-btn').disabled = false;
+        });
+    }
+};
     </script>
-
-    <script
-        type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"
-    ></script>
-    <script type="text/javascript" src="https://camarabatatais.com.br/src/js/asb.js"></script>
-
-    <div vw class="enabled">
-        <div vw-access-button class="active"></div>
-        <div vw-plugin-wrapper>
-            <div class="vw-plugin-top-wrapper"></div>
-        </div>
-    </div>
 
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>
