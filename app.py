@@ -62,6 +62,19 @@ class Produto(db.Model):
             return (data_validade_dt - datetime.now().date()).days
         return None
 
+
+# Rotas para fornecer mais APIs
+
+@app.route('/api/produtos', methods=['GET'])
+def api_listar_produtos():
+    produtos = Produto.query.all()
+    return jsonify([{
+        "id": p.id,
+        "nome": p.nome,
+        "quantidade": p.quantidade,
+        "data_validade": p.data_validade
+    } for p in produtos])
+
 # Variável de controle para criação de tabelas
 tables_created = False
 
