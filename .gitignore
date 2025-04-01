@@ -1,0 +1,47 @@
+# Ignore arquivos e pastas de ambiente virtual
+venv/
+.env
+*.env
+
+# Arquivos temporários do Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Arquivos de log e cache
+*.log
+*.sqlite3
+*.db
+*.db-journal
+*.pid
+
+# Arquivos de configuração pessoais
+*.vscode/
+*.idea/
+*.DS_Store
+*.swp
+
+# Arquivos do sistema
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Migrations (caso queira reiniciar do zero)
+migrations/versions/
+
+# Pytest
+.cache/
+.pytest_cache/
+
+# Arquivos do GitHub Codespaces e Actions
+.github/workflows/*.yml
+!python-app.yml
+
+# Arquivos de testes gerados
+htmlcov/
+coverage.xml
+
+# Arquivos de build
+build/
+dist/
+*.egg-info/

@@ -1,115 +1,177 @@
-Controle de Validade
-Este projeto é um sistema de controle de mercadorias destinado a pequenas e médias empresas. Ele permite aos usuários gerenciar o inventário de produtos, incluindo funcionalidades para adicionar, editar, excluir e visualizar itens. O sistema também suporta o rastreamento de vendas e controle de estoque em tempo real.
+# Controle de Validade
 
-1. Requisitos do Sistema
-Para executar o sistema de controle de validade, você precisará dos seguintes requisitos:
+Sistema web desenvolvido como parte do Projeto Integrador III da UNIVESP, com foco na gestão de estoque e validade de produtos para pequenos e médios comércios.
 
-Python 3.x: Certifique-se de ter o Python 3.x instalado em seu sistema. Você pode baixar e instalar a versão mais recente do Python no site oficial: python.org.
+## 🎯 Objetivo
 
-Flask: O sistema utiliza o framework Flask para desenvolvimento web em Python. Instale o Flask usando o pip, o gerenciador de pacotes do Python, com o comando:
+Facilitar o controle de entrada, saída e validade dos produtos em estoque, evitando perdas e otimizando a gestão de mercadorias.
 
+---
+
+## ✅ Funcionalidades
+
+- Cadastro de produtos com validade
+- Edição e exclusão de itens
+- Visualização de estoque
+- Controle de entrada e saída de produtos
+- Alertas de produtos vencidos ou próximos do vencimento
+- Geração de relatórios
+- Responsividade para dispositivos móveis
+- Acessibilidade com alto contraste, Libras (VLibras) e ajuste de fonte
+
+---
+
+## 🧰 Tecnologias Utilizadas
+
+### 🔧 Backend
+- **Python 3**
+- **Flask** (framework web)
+- **Flask SQLAlchemy** (ORM)
+- **Flask Migrate** (migrações de banco de dados)
+- **SQLite** (ambiente local) / **PostgreSQL** (produção)
+- **APIs com Flask** (`/api/produtos`, `/iot/sensor`)
+
+### 🌐 Frontend
+- **HTML5 + CSS3**
+- **JavaScript** (scripts para acessibilidade, filtros e alertas)
+- **Bootstrap** (responsividade)
+
+### ☁️ Nuvem
+- **Render.com** (deploy do backend com PostgreSQL)
+- **GitHub** (controle de versão e repositório)
+- **Vercel** (opcional, para frontend)
+- **GitHub Actions** (integração contínua)
+
+### ♿ Acessibilidade
+- Botão de **Alto Contraste**
+- Botão para **Aumentar/Diminuir Fonte**
+- Integração com **VLibras**
+- Compatibilidade com leitores de tela e teclados
+- Layout responsivo e com foco em boas práticas do [Lighthouse](https://developers.google.com/web/tools/lighthouse/)
+
+---
+
+## 🔁 Integração Contínua
+
+- CI com **GitHub Actions** para verificar push/pull requests
+- Testes automatizados de funcionalidades essenciais
+
+---
+
+## 🔬 Testes
+
+- Testes de rotas com Flask
+- Testes de banco de dados SQLite
+- Testes manuais de interface e responsividade
+
+---
+
+## 🔗 API & IoT
+
+- Rota `/api/produtos`: fornece todos os dados do estoque em JSON
+- Rota `/iot/sensor`: simula recebimento de dados de sensores externos (ex: temperatura, validade)
+
+---
+
+## 🧪 Scripts Web (JavaScript)
+
+- Filtros de produtos por categoria
+- Controle de contraste e fonte
+- Validação de campos de formulário
+- Contador de produtos vencidos
+
+---
+
+## 🌍 Acesso ao Projeto
+
+- [Projeto online no Render](https://projetointegrador2-r303.onrender.com)
+- [Repositório GitHub](https://github.com/Alunos-univesp/projetointegrador2)
+
+---
+
+## 👨‍💻 Integrantes do Grupo
+
+- Brenda Raimundo da Silva  
+- Dinalva Crisostomo Barbosa  
+- Douglas Henrique Rasse  
+- Marques dos Santos  
+- Thais Baldo de Oliveira
+
+---
+
+## 📁 Estrutura do Projeto
+
+```bash
+projetointegrador2/
+├── app/
+│   ├── __init__.py            # Criação e configuração da aplicação Flask
+│   ├── models.py              # Definição do modelo Produto (SQLAlchemy)
+│   ├── routes.py              # Rotas principais e lógica da aplicação
+│
+├── static/
+│   ├── css/                   # Estilos customizados
+│   ├── js/                    # Scripts de acessibilidade, filtro, alerta
+│
+├── templates/
+│   ├── index.html             # Tela inicial (login/redirecionamento)
+│   ├── home.html              # Página principal (painel)
+│   ├── estoque.html           # Tabela de produtos
+│   ├── cadastro-mercadoria.html # Formulário de cadastro
+│   ├── lista_produtos_proximo_vencimento.html
+│   ├── analise.html           # Dashboard de gráficos com Plotly
+│   ├── pdf_analise.html       # Template HTML para geração de PDF
+│
+├── tests/
+│   └── test_app.py            # Testes automatizados com pytest
+│
+├── run.py                     # Arquivo principal para executar a aplicação
+├── requirements.txt           # Dependências do projeto
+├── Procfile                  # Configuração para deploy no Render
+├── README.md                 # Documentação do projeto
+
+📦 Requisitos
+Python 3.10+
+
+Pip
+
+Ambiente virtual (venv)
+
+Editor de código (VS Code recomendado)
+
+🚀 Execução Local
 bash
-Copiar código
-pip install Flask
-PostgreSQL: O sistema utiliza o PostgreSQL como banco de dados. Instale o PostgreSQL e crie um banco de dados para o sistema de controle de validade. Certifique-se de configurar as credenciais de acesso no arquivo de configuração do projeto.
+Copiar
+# Clonar o repositório
+git clone https://github.com/Alunos-univesp/projetointegrador2.git
+cd projetointegrador2
 
-Cloud Firestore: O sistema também usa o Cloud Firestore, um banco de dados NoSQL do Firebase e Google Cloud Platform, para armazenar e sincronizar dados em tempo real e offline. Certifique-se de configurar o Firebase para usar o Firestore antes de prosseguir com a instalação.
+# Criar ambiente virtual e ativar
+python -m venv venv
+venv\Scripts\activate   # Windows
 
-Certifique-se de que todos esses requisitos estejam instalados corretamente em seu sistema antes de prosseguir com a instalação e execução do sistema de controle de validade.
-
-2. Instalação
-Clone o repositório:
-
-bash
-Copiar código
-git clone https://github.com/Alunos-univesp/projeto-integrador-univesp.git
-Navegue até a pasta do projeto:
-
-bash
-Copiar código
-cd projeto-integrador-univesp
-Instale as dependências:
-
-bash
-Copiar código
+# Instalar dependências
 pip install -r requirements.txt
-Configure o PostgreSQL:
 
-Certifique-se de que o PostgreSQL está instalado e em execução.
-Crie um banco de dados para o sistema:
-sql
-Copiar código
-CREATE DATABASE controle_validade;
-Atualize as configurações de conexão ao PostgreSQL no arquivo de configuração do projeto (app.py ou o arquivo de configuração correspondente) com suas credenciais, por exemplo:
-python
-Copiar código
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://usuario:senha@localhost/controle_validade'
-Inicialize o banco de dados:
+# Rodar o projeto
+python run.py
 
-Execute o arquivo create_db.py para criar as tabelas no banco de dados PostgreSQL.
-bash
-Copiar código
-python create_db.py
-Inicie o servidor local:
+📅 Entrega
+Projeto desenvolvido de acordo com as diretrizes do Projeto Integrador III da UNIVESP, atendendo aos critérios obrigatórios:
 
-bash
-Copiar código
-python app.py
-Acesse o sistema: Após iniciar o servidor, abra seu navegador e acesse o seguinte endereço:
+Framework web
 
-arduino
-Copiar código
-http://127.0.0.1:5000/
-3. Dicas Adicionais
-Certifique-se de que o PostgreSQL está configurado corretamente e que as credenciais estão corretas no código.
-Verifique se todas as dependências estão instaladas corretamente. Em caso de erros ao iniciar o servidor, revise as dependências e os logs no terminal.
-Consulte a documentação do projeto ou entre em contato com a equipe de suporte para obter assistência adicional.
-4. Uso
-4.1 Acessando o Sistema
-Após concluir a instalação, abra o navegador e acesse:
+Banco de dados
 
-arduino
-Copiar código
-http://127.0.0.1:5000/
-4.2 Adicionando um Novo Produto ao Inventário
-Faça login no sistema.
-Navegue até a seção "Adicionar Produto".
-Preencha o formulário com informações do novo produto, incluindo nome, marca, código, custo, quantidade, data de inclusão e data de validade.
-Clique em "Adicionar" ou "Salvar" para registrar o produto no inventário.
-4.3 Visualizando Produtos no Inventário
-Após adicionar novos produtos, acesse a página de "Estoque" para visualizar a lista completa de produtos.
+Script Web (JavaScript)
 
-A lista exibe todos os produtos disponíveis, incluindo os recentemente adicionados.
-Utilize as funcionalidades de filtro ou pesquisa para encontrar produtos específicos, caso necessário.
-Dicas Adicionais para o Inventário
-Revise todas as informações antes de adicionar um novo produto para garantir precisão.
-Para editar ou remover um produto existente, acesse a página de detalhes do produto e utilize as opções disponíveis.
-Mantenha seu inventário atualizado regularmente para refletir os produtos disponíveis.
-5. Contribuindo
-Contribuições são sempre bem-vindas! Para contribuir:
+Nuvem (Render.com)
 
-Faça um fork do projeto:
+Acessibilidade
 
-No GitHub, clique no botão "Fork" no canto superior direito da página do projeto para criar uma cópia do repositório em sua conta.
-Crie uma nova branch para suas modificações:
+Controle de versão (GitHub)
 
-bash
-Copiar código
-git checkout -b nome-da-sua-branch
-Faça commit das suas alterações:
+Integração contínua (GitHub Actions)
 
-Após fazer as modificações no código, confirme-as localmente usando o comando:
-bash
-Copiar código
-git commit -m "Descrição das alterações"
-Faça push para a branch:
+Testes
 
-bash
-Copiar código
-git push origin nome-da-sua-branch
-Abra um Pull Request:
-
-No GitHub, acesse o repositório do seu fork, clique em "New Pull Request" e selecione a branch principal do projeto original para solicitar a mesclagem.
-Depois de abrir o PR, outros colaboradores poderão revisar suas alterações, fazer comentários e sugerir modificações. Uma vez revisado e aprovado, seu PR poderá ser mesclado ao projeto original pelo mantenedor do projeto.
-6. Licença
-Este projeto está licenciado sob a Licença MIT. Veja o arquivo LICENSE para detalhes.
+API e IoT

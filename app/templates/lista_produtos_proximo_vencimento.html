@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
+    <!-- Manifesto para PWA -->
+    <link rel="manifest" href="/static/manifest.json">
+    <meta name="theme-color" content="#007bff">
+
+
     <!-- Font Awesome para ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css">
 
@@ -207,6 +212,16 @@
 <script>
   new window.VLibras.Widget('https://vlibras.gov.br/app');
 </script>
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/static/service-worker.js')
+                .then(reg => console.log('SW registrado ✅', reg))
+                .catch(err => console.error('Erro SW ❌', err));
+        });
+    }
+</script>
+
 </body>
 </html>
    

@@ -1,20 +1,24 @@
-]<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <!-- Link para Font Awesome CDN para garantir que os ícones sejam carregados corretamente -->
+
+    <!-- Manifesto PWA e tema -->
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <meta name="theme-color" content="#007bff">
+
+    <!-- Estilos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css">
-    
     <link rel="stylesheet" href="https://camarabatatais.com.br/src/icons/fontawesome5.9.0/css/all.css" />
     <link rel="stylesheet" href="https://camarabatatais.com.br/src/css/default.css" />
     <link rel="stylesheet" href="https://camarabatatais.com.br/src/css/asb.css" />
-    
+
     <meta name="description" content="Sistema de controle de estoque para gerenciar e monitorar mercadorias.">
     <title>Controle de Estoque</title>
+
     <style>
-        /* CSS para estilização */
         body, html {
             height: 100%;
             margin: 0;
@@ -59,7 +63,6 @@
             background-color: #0056b3;
         }
 
-        /* Responsividade */
         @media (max-width: 600px) {
             h1 {
                 font-size: 24px;
@@ -79,7 +82,7 @@
             button.style.backgroundColor = '#0056b3';
             setTimeout(() => {
                 window.location.href = button.getAttribute('href');
-            }, 500); // Atraso para simular o carregamento
+            }, 500);
             return false;
         }
     </script>
@@ -87,24 +90,32 @@
 <body>
     <div class="container" role="main" aria-labelledby="main-title">
         <h1 id="main-title">Bem-vindo ao Controle de Validade</h1>
-        <a href="{{ url_for('estoque') }}" onclick="return handleButtonClick(this)" aria-label="Gerenciar Estoque">Gerenciar Estoque</a>
+        <a href="{{ url_for('home') }}" onclick="return handleButtonClick(this)" aria-label="Ir para o Menu">Ir para o Menu</a>
     </div>
 
-    <script
-        type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"
-    ></script>
-    <script type="text/javascript" src="https://camarabatatais.com.br/src/js/asb.js"></script>
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+    <script src="https://camarabatatais.com.br/src/js/asb.js"></script>
+
+    <!-- VLibras -->
     <div vw class="enabled">
         <div vw-access-button class="active"></div>
         <div vw-plugin-wrapper>
             <div class="vw-plugin-top-wrapper"></div>
         </div>
     </div>
-
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script> new window.VLibras.Widget('https://vlibras.gov.br/app'); </script>
+
+    <!-- Registro do Service Worker -->
     <script>
-        new window.VLibras.Widget('https://vlibras.gov.br/app');
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register("{{ url_for('static', filename='service-worker.js') }}")
+                    .then(reg => console.log('SW registrado ✅', reg))
+                    .catch(err => console.error('Erro SW ❌', err));
+            });
+        }
     </script>
 </body>
 </html>

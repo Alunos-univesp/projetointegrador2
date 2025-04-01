@@ -5,22 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
-    <!-- Link para Font Awesome CDN para garantir que os ícones sejam carregados corretamente -->
+    <link rel="manifest" href="/static/manifest.json">
+    <meta name="theme-color" content="#007bff">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css">
-    
     <link rel="stylesheet" href="https://camarabatatais.com.br/src/icons/fontawesome5.9.0/css/all.css" />
     <link rel="stylesheet" href="https://camarabatatais.com.br/src/css/default.css" />
     <link rel="stylesheet" href="https://camarabatatais.com.br/src/css/asb.css" />
-    
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
     <meta name="description" content="Sistema de controle de estoque para gerenciar e monitorar mercadorias.">
     <title>Controle de Validade</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    
+
     <style>
         #fixador {
-            -webkit-transition: all .5s ease-in-out;
-            -moz-transition: all .5s ease-in-out;
-            -o-transition: all .5s ease-in-out;
             transition: all .5s ease-in-out;
             z-index: 9999;
             position: fixed;
@@ -32,7 +30,6 @@
             box-shadow: 0 5px 30px rgba(34, 34, 34, 0);
         }
 
-        /* Estilizando o título */
         .navbar-brand {
             display: flex;
             align-items: center;
@@ -41,7 +38,6 @@
             text-align: center;
         }
 
-        /* Estilizando o botão "Sair" */
         .navbar-nav .dropdown-item {
             cursor: pointer;
             color: #dc3545;
@@ -50,12 +46,10 @@
             background-color: transparent;
         }
 
-        /* Alinhar o botão "Sair" à direita */
         .ml-auto {
             margin-left: auto !important;
         }
 
-        /* Estilizando a área de botões */
         .vertical-center {
             min-height: 100vh; 
             display: flex;
@@ -68,7 +62,6 @@
             margin-bottom: 10px;
         }
 
-        /* Estilo para o vídeo de fundo */
         #background-video {
             position: absolute;
             top: 0;
@@ -79,7 +72,6 @@
             z-index: 1;
         }
 
-        /* Sobreposição para contraste */
         .overlay {
             position: absolute;
             top: 0;
@@ -90,7 +82,6 @@
             z-index: 1;
         }
 
-        /* Melhor visibilidade de texto */
         .content {
             position: relative;
             z-index: 2;
@@ -102,7 +93,6 @@
             color: white !important;
         }
 
-        /* Estilização para os botões de acessibilidade */
         .accessibility-buttons {
             display: flex;
             flex-direction: column;
@@ -114,17 +104,13 @@
     </style>
 </head>
 <body>
-
-    <!-- Vídeo de fundo -->
     <video id="background-video" autoplay loop muted aria-hidden="true">
         <source src="https://media.istockphoto.com/id/1765876351/pt/v%C3%ADdeo/tablet-walking-or-man-with-factory-logistics-for-a-delivery-order-in-workshop-for-stock.mp4?s=mp4-640x640-is&k=20&c=9OT7a66AGxWv7f5bIfETw8NlRakTUzM6998Ci7HX9Nc=" type="video/mp4">
         Seu navegador não suporta o vídeo.
     </video>
 
-    <!-- Sobreposição -->
     <div class="overlay"></div>
 
-    <!-- Navbar com usuário logado e botão de logout -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">Controle de Validade</a>
         <ul class="navbar-nav ml-auto">
@@ -136,7 +122,6 @@
                     <a class="dropdown-item" href="#" onclick="logout()">Sair</a>
                 </div>
             </li>
-            <!-- Botão do VLibras na navbar -->
             <li class="nav-item">
                 <button class="btn btn-info" onclick="toggleVLibras()">VLibras</button>
             </li>
@@ -150,11 +135,11 @@
                 <a href="/cadastro-mercadoria" class="btn btn-primary btn-lg" role="button">Cadastro de Mercadoria</a>
                 <a href="/lista-produtos-proximo-vencimento" class="btn btn-warning btn-lg" role="button">Lista de Produtos Próximo ao Vencimento</a>
                 <a href="/estoque" class="btn btn-success btn-lg" role="button">Estoque</a>
+                <a href="/analise" class="btn btn-info btn-lg" role="button">Análise de Estoque</a>
             </div>
         </div>
     </div>
 
-    <!-- Firebase SDK e configuração -->
     <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-auth.js"></script>
     <script>
@@ -185,20 +170,13 @@
         }
     </script>
 
-    <!-- Bootstrap JS and jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+    <script src="https://camarabatatais.com.br/src/js/asb.js"></script>
 
-    <script
-        type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"
-    ></script>
-    <script type="text/javascript" src="https://camarabatatais.com.br/src/js/asb.js"></script>
-
-    <!-- Botões de acessibilidade e VLibras -->
     <div class="accessibility-buttons">
-        <!-- Botão de Acessibilidade -->
         <div vw class="enabled">
             <div vw-access-button class="active"></div>
             <div vw-plugin-wrapper>
@@ -206,7 +184,6 @@
             </div>
         </div>
 
-        <!-- Botão VLibras -->
         <div>
             <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
             <script>
@@ -214,5 +191,16 @@
             </script>
         </div>
     </div>
+    
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/static/service-worker.js')
+                    .then(reg => console.log('SW registrado ✅', reg))
+                    .catch(err => console.error('Erro SW ❌', err));
+            });
+        }
+    </script>
+    
 </body>
 </html>

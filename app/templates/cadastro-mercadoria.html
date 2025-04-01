@@ -4,6 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+<!-- Melhoria para mobile (Android/iOS) -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="apple-touch-icon" href="/static/icons/icon-192.png"> <!-- ou caminho correto -->
+
+    <!-- Manifesto para PWA -->
+    <link rel="manifest" href="/static/manifest.json">
+
+    <meta name="theme-color" content="#007bff">
+
 
     <!-- Font Awesome e CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css">
@@ -195,5 +204,16 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/static/service-worker.js')
+              .then(reg => console.log('SW registrado ✅', reg))
+              .catch(err => console.error('Erro SW ❌', err));
+          });
+        }
+      </script>
+      
 </body>
 </html>

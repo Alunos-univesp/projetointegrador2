@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Relatório de Análise de Estoque</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .header small {
+            color: #555;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .section h2 {
+            font-size: 18px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+        }
+        .grafico {
+            text-align: center;
+        }
+        .grafico img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Relatório de Análise de Estoque</h1>
+        <small>Gerado em {{ agora }}</small>
+    </div>
+
+    <div class="section">
+        <h2>Gráfico: Quantidade em Estoque por Produto</h2>
+        <div class="grafico">
+            <img src="data:image/png;base64,{{ grafico }}" alt="Gráfico de Estoque">
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Análise de Estoque</title>
+
+    <!-- Manifesto para PWA -->
+    <link rel="manifest" href="/static/manifest.json">
+    <meta name="theme-color" content="#007bff">
+
+    <!-- CSS externo -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://camarabatatais.com.br/src/css/asb.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- Plotly -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .card-header {
+            background-color: #007bff;
+            color: white;
+            font-size: 1.2rem;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .btn-voltar {
+            margin-bottom: 20px;
+        }
+
+        /* Estilo do menu de acessibilidade */
+        .accessibility-wrapper {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 9999;
+        }
+
+        .accessibility-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .access-btn {
+            background-color: #343a40;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: background-color 0.3s ease;
+        }
+
+        .access-btn:hover {
+            background-color: #007bff;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container dashboard-container">
+    <a href="/home" class="btn btn-secondary btn-voltar">&larr; Voltar</a>
+    <a href="/analise/pdf" class="btn btn-danger mb-4">📄 Gerar Relatório PDF</a>
+
+    <div class="card">
+        <div class="card-header">📊 Quantidade em Estoque por Produto</div>
+        <div class="card-body">{{ grafico_estoque|safe }}</div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">📈 Distribuição por Categoria</div>
+        <div class="card-body">{{ grafico_categoria|safe }}</div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">⚠️ Produtos Vencidos</div>
+        <div class="card-body">{{ grafico_vencidos|safe }}</div>
+    </div>
+</div>
+
+<!-- Menu de Acessibilidade -->
+<div class="accessibility-wrapper">
+    <div class="accessibility-menu">
+        <button class="access-btn" onclick="toggleContrast()" title="Alto Contraste">
+            <i class="fas fa-adjust"></i>
+        </button>
+        <button class="access-btn" onclick="increaseFont()" title="Aumentar Fonte">
+            <i class="fas fa-plus"></i>
+        </button>
+        <button class="access-btn" onclick="decreaseFont()" title="Diminuir Fonte">
+            <i class="fas fa-minus"></i>
+        </button>
+    </div>
+</div>
+
+<!-- VLibras -->
+<div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+        <div class="vw-plugin-top-wrapper"></div>
+    </div>
+</div>
+<script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+<script> new window.VLibras.Widget('https://vlibras.gov.br/app'); </script>
+
+<!-- JS de Acessibilidade -->
+<script src="https://camarabatatais.com.br/src/js/asb.js"></script>
+
+<!-- Service Worker -->
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/static/service-worker.js')
+                .then((registration) => {
+                    console.log('Service Worker registrado com sucesso:', registration);
+                })
+                .catch((error) => {
+                    console.log('Erro ao registrar o Service Worker:', error);
+                });
+        });
+    }
+</script>
+
+</body>
+</html>
