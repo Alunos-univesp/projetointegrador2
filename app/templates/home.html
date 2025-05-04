@@ -157,13 +157,13 @@
             if (user) {
                 document.getElementById('user-name').textContent = user.displayName || user.email;
             } else {
-                window.location.href = '/login';
+                window.location.href = '/';
             }
         });
 
         function logout() {
             firebase.auth().signOut().then(function() {
-                window.location.href = '/login';
+                window.location.href = '/';
             }).catch(function(error) {
                 console.error('Erro ao fazer logout', error);
             });

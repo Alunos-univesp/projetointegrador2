@@ -13,18 +13,27 @@ from datetime import datetime
 
 def register_routes(app):
 
+    # ⚠️ Cria tabelas em cada request — use apenas em desenvolvimento
     @app.before_request
     def create_tables():
         db.create_all()
 
+    # 🔐 Tela de login (Firebase)
     @app.route('/')
     def index():
         return render_template('index.html')
 
+    # 🔁 Rota adicional para evitar erro 404 ao acessar /login
+    @app.route('/login')
+    def login():
+        return redirect('/')
+
+    # 🏠 Tela inicial após login
     @app.route('/home')
     def home():
         return render_template('home.html')
 
+    # 📦 Visualização do estoque com filtros
     @app.route('/estoque')
     def estoque():
         filtros = []
@@ -38,6 +47,7 @@ def register_routes(app):
         produtos = Produto.query.filter(*filtros).all()
         return render_template('estoque.html', produtos=produtos)
 
+    # ➕ Cadastro de mercadoria
     @app.route('/cadastro-mercadoria', methods=['GET', 'POST'])
     def cadastro_mercadoria():
         if request.method == 'POST':
@@ -58,6 +68,7 @@ def register_routes(app):
             return redirect(url_for('estoque'))
         return render_template('cadastro-mercadoria.html')
 
+    # ❌ Excluir produto
     @app.route('/excluir-produto/<int:id>', methods=['POST'])
     def excluir_produto(id):
         produto = Produto.query.get(id)
@@ -67,12 +78,14 @@ def register_routes(app):
             return jsonify({'success': True}), 200
         return jsonify({'success': False}), 404
 
+    # ⏳ Lista produtos que vencem em até 30 dias
     @app.route('/lista-produtos-proximo-vencimento')
     def lista_produtos_proximo_vencimento():
         produtos = Produto.query.all()
         proximos = [p for p in produtos if p.dias_ate_vencimento is not None and p.dias_ate_vencimento <= 30]
         return render_template('lista_produtos_proximo_vencimento.html', produtos=proximos)
 
+    # 🔗 API pública com dados dos produtos
     @app.route('/api/produtos', methods=['GET'])
     def api_listar_produtos():
         produtos = Produto.query.all()
@@ -83,10 +96,12 @@ def register_routes(app):
             "data_validade": p.data_validade
         } for p in produtos])
 
+    # 📡 Simulação de sensor IoT
     @app.route('/iot/sensor')
     def sensor_simulado():
         return jsonify({"temperatura": 22.5, "umidade": 60})
 
+    # 📁 Download do estoque em Excel
     @app.route('/download_excel')
     def download_excel():
         produtos = Produto.query.all()
@@ -109,29 +124,25 @@ def register_routes(app):
         output.seek(0)
         return send_file(output, as_attachment=True, download_name='estoque_produtos.xlsx', mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
 
+    # 📊 Visualização dos gráficos (estoque, categorias, vencidos)
     @app.route('/analise')
     def analise():
         produtos = Produto.query.all()
 
-        # Gráfico de barras - Quantidade por Produto
         nomes = [p.nome for p in produtos]
         quantidades = [p.quantidade for p in produtos]
-
         fig_estoque = go.Figure([go.Bar(x=nomes, y=quantidades)])
         fig_estoque.update_layout(title='Quantidade em Estoque por Produto', xaxis_title='Produto', yaxis_title='Quantidade')
         grafico_estoque = pio.to_html(fig_estoque, full_html=False)
 
-        # Gráfico de pizza - Estoque por Categoria
         categorias = {}
         for p in produtos:
             if p.marca:
                 categorias[p.marca] = categorias.get(p.marca, 0) + p.quantidade
-
-        fig_categoria = go.Figure(data=[go.Pie(labels=list(categorias.keys()), values=list(categorias.values()))])
+        fig_categoria = go.Figure([go.Pie(labels=list(categorias.keys()), values=list(categorias.values()))])
         fig_categoria.update_layout(title='Distribuição de Estoque por Categoria')
         grafico_categoria = pio.to_html(fig_categoria, full_html=False)
 
-        # Gráfico de barras - Produtos Vencidos
         vencidos = {}
         for p in produtos:
             if p.data_validade:
@@ -140,17 +151,17 @@ def register_routes(app):
                         vencidos[p.nome] = p.quantidade
                 except:
                     continue
-
         fig_vencidos = go.Figure([go.Bar(x=list(vencidos.keys()), y=list(vencidos.values()))])
         fig_vencidos.update_layout(title='Produtos Vencidos', xaxis_title='Produto', yaxis_title='Quantidade')
         grafico_vencidos = pio.to_html(fig_vencidos, full_html=False)
 
-        return render_template('analise.html', 
+        return render_template('analise.html',
             grafico_estoque=Markup(grafico_estoque),
             grafico_categoria=Markup(grafico_categoria),
             grafico_vencidos=Markup(grafico_vencidos)
         )
 
+    # 🧾 Geração de relatório em PDF com gráfico
     @app.route('/analise/pdf')
     def gerar_pdf():
         produtos = Produto.query.all()

@@ -88,7 +88,7 @@ Facilitar o controle de entrada, saída e validade dos produtos em estoque, evit
 - [Repositório GitHub](https://github.com/Alunos-univesp/projetointegrador2)
 
 ---
-
+senha @Alunos2025
 ## 👨‍💻 Integrantes do Grupo
 
 - Brenda Raimundo da Silva  
